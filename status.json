@@ -1,0 +1,8 @@
+{
+  "status": {
+    "wind": 10,
+    "water": 20,
+    "windStatus": "-",
+    "waterStatus": "-"
+  }
+}
