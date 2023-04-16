@@ -11,9 +11,9 @@ import (
 const (
 	DB_HOST     = "localhost"
 	DB_USER     = "postgres"
-	DB_PASSWORD = "Digital2023"
+	DB_PASSWORD = "admin"
 	DB_PORT     = 5432
-	DB_NAME     = "simple-api"
+	DB_NAME     = "tugas10"
 	DEBUG_MODE  = true // true/false
 )
 

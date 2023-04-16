@@ -10,6 +10,9 @@ import (
 func StartApp() *gin.Engine {
 	r := gin.Default()
 
+	// Create the admin user if it doesn't already exist
+	controllers.CreateAdminUser()
+
 	userRouter := r.Group("/users")
 	{
 		userRouter.POST("/register", controllers.UserRegister)

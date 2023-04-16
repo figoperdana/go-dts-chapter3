@@ -10,6 +10,14 @@ func CreateAdminUser() {
 	// Connect to the database
 	db := database.GetDB()
 
+	// Check if the admin user already exists in the database
+	var count int64
+	db.Model(&models.User{}).Where("email = ?", "admin@example.com").Count(&count)
+	if count > 0 {
+		// Admin user already exists in the database, return
+		return
+	}
+
 	// Create a new user with the role "admin"
 	user := models.User{
 		FullName: "Admin User",
