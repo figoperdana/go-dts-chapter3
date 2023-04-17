@@ -23,7 +23,7 @@ func GenerateToken(id uint, email string) string {
 }
 
 func VerifyToken(ctx *gin.Context) (interface{}, error) {
-	errResponse := errors.New("Sign in to process")
+	errResponse := errors.New("sign in to process")
 	headerToken := ctx.Request.Header.Get("Authorization")
 	bearer := strings.HasPrefix(headerToken, "Bearer")
 

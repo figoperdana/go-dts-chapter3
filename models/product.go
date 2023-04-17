@@ -8,8 +8,8 @@ import (
 type Product struct {
 	GormModel
 	UserID      uint   `json:"user_id"`
-	Title       string `json:"title" validate:"required-Title is required"`
-	Description string `json:"description" validate:"required-Description is required"`
+	Title       string `json:"title"  validate:"required, title"`
+	Description string `json:"description"  validate:"required, description"`
 	User        *User
 }
 

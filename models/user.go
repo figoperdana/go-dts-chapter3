@@ -9,9 +9,9 @@ import (
 
 type User struct {
 	GormModel
-	FullName string    `gorm:"not null" json:"full_name" validate:"required-Full name is required"`
-	Email    string    `gorm:"not null;uniqueIndex" json:"email" validate:"required-Email is required,email-Invalid email format"`
-	Password string    `gorm:"not null" json:"password" validate:"required-Password is required,MinStringLength(6)-Password has to have a minimum length of 6 characters"`
+	FullName string    `gorm:"not null" json:"full_name" validate:"required, fullname"`
+	Email    string    `gorm:"not null;uniqueIndex" json:"email" validate:"required, email"`
+	Password string    `gorm:"not null" json:"password"  validate:"required, password"`
 	Products []Product `json:"products"`
 	Role     string    `gorm:"default:user" json:"role" validate:"required-Role is required"`
 }

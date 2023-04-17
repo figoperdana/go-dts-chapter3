@@ -31,8 +31,11 @@ func ProductAuthorization(role string) gin.HandlerFunc {
 				"message": "You are not allowed to access this data",
 			})
 			return
+		} else if role != "admin" && userRole == "admin" {
+			c.Next()
+			return
 		}
-
+		
 		Product := models.Product{}
 		err = db.Select("user_id").First(&Product, uint(productId)).Error
 		if err != nil {

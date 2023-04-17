@@ -72,6 +72,16 @@ func UserLogin(ctx *gin.Context) {
 		})
 		return
 	}
+
+	hashedPassword := helpers.HashPass(password)
+	if User.Password != hashedPassword {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"error":   "Unauthorized",
+			"message": "invalid email/password",
+		})
+		return
+	}
+
 	token := helpers.GenerateToken(User.ID, User.Email)
 
 	ctx.JSON(http.StatusOK, gin.H{
