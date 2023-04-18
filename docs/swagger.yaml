@@ -1,0 +1,590 @@
+definitions:
+  models.Comment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo:
+        $ref: '#/definitions/models.Photo'
+      photoID:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.Photo:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.SocialMedia:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      age:
+        type: integer
+      comments:
+        items:
+          $ref: '#/definitions/models.Comment'
+        type: array
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      photos:
+        items:
+          $ref: '#/definitions/models.Photo'
+        type: array
+      social_medias:
+        items:
+          $ref: '#/definitions/models.SocialMedia'
+        type: array
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /comments/create/{photoId}:
+    post:
+      consumes:
+      - application/json
+      description: Create comments for photo identified by given id
+      parameters:
+      - description: ID of the photo
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      - description: message
+        in: query
+        name: message
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Create comments success
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Photo Not Found
+      security:
+      - BearerAuth: []
+      summary: Create comments
+      tags:
+      - comments
+  /comments/delete/{commentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete comment identified by given ID
+      parameters:
+      - description: ID of the comment
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete comment success
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+        "404":
+          description: Comment Not Found
+      security:
+      - BearerAuth: []
+      summary: Delete comment
+      tags:
+      - comment
+  /comments/get/{commentId}:
+    get:
+      consumes:
+      - application/json
+      description: Get comments identified by given id
+      parameters:
+      - description: ID of the comments
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get comment success
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Comment Not Found
+      security:
+      - BearerAuth: []
+      summary: Get comments
+      tags:
+      - comments
+  /comments/getall:
+    get:
+      consumes:
+      - application/json
+      description: Get all comments in finalproject
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get all comments success
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+        "401":
+          description: Unauthorized
+        "404":
+          description: Comments Not Found
+      security:
+      - BearerAuth: []
+      summary: Get all comments
+      tags:
+      - comment
+  /comments/getall/{photoId}:
+    get:
+      consumes:
+      - application/json
+      description: Get all comments for photo with given id
+      parameters:
+      - description: ID of the photo
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get all comments success
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+        "401":
+          description: Unauthorized
+        "404":
+          description: Comments Not Found
+      security:
+      - BearerAuth: []
+      summary: Get all comments for specific photo
+      tags:
+      - comment
+  /comments/update/{commentId}:
+    put:
+      consumes:
+      - application/json
+      description: Update comment identified by given id
+      parameters:
+      - description: ID of the comment
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Update comment success
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Comment Not Found
+      security:
+      - BearerAuth: []
+      summary: Update comment
+      tags:
+      - comment
+  /photos/create:
+    post:
+      consumes:
+      - application/json
+      description: Create photo to post in finalproject
+      parameters:
+      - description: title
+        in: query
+        name: title
+        required: true
+        type: string
+      - description: caption
+        in: query
+        name: caption
+        type: string
+      - description: photo_url
+        in: query
+        name: photo_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Create photo success
+          schema:
+            $ref: '#/definitions/models.Photo'
+        "401":
+          description: Unauthorized
+      security:
+      - BearerAuth: []
+      summary: Create photo
+      tags:
+      - photo
+  /photos/delete/{photoId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete photo identified by given ID
+      parameters:
+      - description: ID of the photo
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete photo success
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+        "404":
+          description: Photo Not Found
+      security:
+      - BearerAuth: []
+      summary: Delete photo
+      tags:
+      - photo
+  /photos/get/{photoId}:
+    get:
+      consumes:
+      - application/json
+      description: Get photo by ID
+      parameters:
+      - description: ID of the photo
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get photo success
+          schema:
+            $ref: '#/definitions/models.Photo'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Photo Not Found
+      security:
+      - BearerAuth: []
+      summary: Get photo
+      tags:
+      - photo
+  /photos/getall:
+    get:
+      consumes:
+      - application/json
+      description: Get all existing photos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get all photos success
+          schema:
+            items:
+              $ref: '#/definitions/models.Photo'
+            type: array
+        "401":
+          description: Unauthorized
+        "404":
+          description: Photos Not Found
+      security:
+      - BearerAuth: []
+      summary: Get all photos
+      tags:
+      - photo
+  /photos/update/{photoId}:
+    put:
+      consumes:
+      - application/json
+      description: Update photo identified by given ID
+      parameters:
+      - description: ID of the photo
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Update photo success
+          schema:
+            $ref: '#/definitions/models.Photo'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Photo Not Found
+      security:
+      - BearerAuth: []
+      summary: Update photo
+      tags:
+      - photo
+  /socialmedia/create:
+    post:
+      consumes:
+      - application/json
+      description: Create social media of the user
+      parameters:
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: social_media_url
+        in: query
+        name: social_media_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Create social media success
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+        "401":
+          description: Unauthorized
+      security:
+      - BearerAuth: []
+      summary: Create social media
+      tags:
+      - social media
+  /socialmedia/delete/{socialMediaId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete social media identified by given ID
+      parameters:
+      - description: ID of the social media
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Delete social media success
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+        "404":
+          description: Social Media Not Found
+      security:
+      - BearerAuth: []
+      summary: Delete social media
+      tags:
+      - social media
+  /socialmedia/get/{socialMediaId}:
+    get:
+      consumes:
+      - application/json
+      description: Get social media identified by given id
+      parameters:
+      - description: ID of the social media
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get social media success
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Social Media Not Found
+      security:
+      - BearerAuth: []
+      summary: Get social media
+      tags:
+      - social media
+  /socialmedia/getall:
+    get:
+      consumes:
+      - application/json
+      description: Get all social media in finalproject
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Get all social media success
+          schema:
+            items:
+              $ref: '#/definitions/models.SocialMedia'
+            type: array
+        "401":
+          description: Unauthorized
+        "404":
+          description: Social Media Not Found
+      security:
+      - BearerAuth: []
+      summary: Get all social media
+      tags:
+      - social media
+  /socialmedia/update/{socialMediaId}:
+    put:
+      consumes:
+      - application/json
+      description: Update social media identified by given id
+      parameters:
+      - description: ID of the social media
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Update social media success
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Social Media Not Found
+      security:
+      - BearerAuth: []
+      summary: Update social media
+      tags:
+      - social media
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Login user by email
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login response
+          schema:
+            type: object
+        "401":
+          description: Unauthorized
+      summary: Login user
+      tags:
+      - user
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user
+      parameters:
+      - description: username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      - description: age
+        in: query
+        name: age
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Register success response
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Register user
+      tags:
+      - user
+swagger: "2.0"

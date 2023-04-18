@@ -18,13 +18,12 @@ import (
 // @description This is a final project API from Hactiv8 to add photos, comments, and store the social media of users
 // @termsOfService http://swagger.io/terms
 // @contact.name API Support
-// @contact.email suwandikurniawan89@gmail.com
+// @contact.email perdanaputrafigo@gmail.com
 // @license.name Apache 2.0
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
 // @license.url http://www.apache.org/licenses/license-2.0.html
-// @host mygram-production-346e.up.railway.app
 // @BasePath /
 func StartApp() *gin.Engine {
 	r := gin.Default()

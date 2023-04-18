@@ -13,7 +13,6 @@ var (
 	host       = "localhost"
 	user       = "postgres"
 	password   = "admin"
-	dbPort     = 5432
 	dbname     = "finalproject"
 	debug_mode = true
 	db         *gorm.DB
@@ -21,7 +20,7 @@ var (
 )
 
 func StartDB() {
-	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s dbPort=%s sslmode=disable", host, user, password, dbname, dbPort)
+	config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, user, password, dbname)
 	dsn := config
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
@@ -30,7 +29,8 @@ func StartDB() {
 	}
 
 	fmt.Println("Sukses koneksi ke database")
-	if debug_mode == true {
+
+	if debug_mode {
 	db.Debug().AutoMigrate(models.User{}, models.Photo{}, models.Comment{}, models.SocialMedia{})
 	}
 

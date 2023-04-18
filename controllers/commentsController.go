@@ -11,16 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateComment godoc
-// @Summary Create comment
-// @Description Create comment for photo identified by given id
-// @Tags comment
+// CreateComments godoc
+// @Summary Create comments
+// @Description Create comments for photo identified by given id
+// @Tags comments
 // @Accept json
 // @Produce json
 // @Param photoId path int true "ID of the photo"
 // @Param message query string true "message"
 // @Security BearerAuth
-// @Success 201 {object} models.Comment "Create comment success"
+// @Success 201 {object} models.Comment "Create comments success"
 // @Failure 401 "Unauthorized"
 // @Failure 404 "Photo Not Found"
 // @Router /comments/create/{photoId} [post]
@@ -40,7 +40,7 @@ func CreateComment(c *gin.Context) {
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
 			"error":   "Photo Not Found",
-			"message": "Photo doesn't exist, failed to create comment",
+			"message": "Photo doesn't exist, failed to create comments",
 		})
 		return
 	}
@@ -125,13 +125,13 @@ func GetAllCommentsForPhoto(c *gin.Context) {
 	c.JSON(http.StatusOK, allComments)
 }
 
-// GetComment godoc
-// @Summary Get comment
-// @Description Get comment identified by given id
-// @Tags comment
+// GetComments godoc
+// @Summary Get comments
+// @Description Get comments identified by given id
+// @Tags comments
 // @Accept json
 // @Produce json
-// @Param commentId path int true "ID of the comment"
+// @Param commentId path int true "ID of the comments"
 // @Security BearerAuth
 // @Success 200 {object} models.Comment "Get comment success"
 // @Failure 401 "Unauthorized"
