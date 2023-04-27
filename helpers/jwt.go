@@ -2,17 +2,19 @@ package helpers
 
 import (
 	"errors"
+	"strings"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"strings"
 )
 
 var secretKey = "rahasia"
 
-func GenerateToken(id uint, email string) string {
+func GenerateToken(id uint, email string, role string) string {
 	claims := jwt.MapClaims{
 		"id":    id,
 		"email": email,
+		"role":  role,
 	}
 
 	parseToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -22,9 +24,9 @@ func GenerateToken(id uint, email string) string {
 	return signedToken
 }
 
-func VerifyToken(ctx *gin.Context) (interface{}, error) {
-	errResponse := errors.New("sign in to process")
-	headerToken := ctx.Request.Header.Get("Authorization")
+func VerifyToken(c *gin.Context) (interface{}, error) {
+	errResponse := errors.New("Sign in to proceed")
+	headerToken := c.Request.Header.Get("Authorization")
 	bearer := strings.HasPrefix(headerToken, "Bearer")
 
 	if !bearer {
@@ -45,4 +47,5 @@ func VerifyToken(ctx *gin.Context) (interface{}, error) {
 	}
 
 	return token.Claims.(jwt.MapClaims), nil
+
 }

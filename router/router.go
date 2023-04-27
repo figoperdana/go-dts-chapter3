@@ -13,8 +13,9 @@ func StartApp() *gin.Engine {
 	userRouter := r.Group("/users")
 	{
 		userRouter.POST("/register", controllers.UserRegister)
+
 		userRouter.POST("/login", controllers.UserLogin)
-		controllers.CreateAdminUser()
+
 	}
 
 	productRouter := r.Group("/products")
@@ -22,13 +23,13 @@ func StartApp() *gin.Engine {
 		productRouter.Use(middlewares.Authentication())
 		productRouter.POST("/", controllers.CreateProduct)
 
-		// Only admin can perform update and delete operations
-		productRouter.PUT("/:productId", middlewares.ProductAuthorization("admin"), controllers.UpdateProduct)
-		productRouter.DELETE("/:productId", middlewares.ProductAuthorization("admin"), controllers.DeleteProduct)
+		productRouter.GET("/", controllers.GetAllProducts)
 
-		// All users can perform read operations
-		productRouter.GET("/:productId", middlewares.ProductAuthorization(""), controllers.GetProduct)
-		productRouter.GET("/", middlewares.ProductAuthorization(""), controllers.GetProducts)
+		productRouter.GET("/:productId", middlewares.ProductAuthorization("GET"), controllers.GetProduct)
+
+		productRouter.PUT("/:productId", middlewares.ProductAuthorization("UPDATE"), controllers.UpdateProduct)
+
+		productRouter.DELETE("/:productId", middlewares.ProductAuthorization("DELETE"), controllers.DeleteProduct)
 	}
 
 	return r
